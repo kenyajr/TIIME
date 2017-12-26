@@ -1,0 +1,42 @@
+﻿@model Domain.Concrete.CatetoryType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CatetoryType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.categoryTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.categoryTypeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.categoryTypeDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.categoryTypeDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.createdDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createdDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.categoryTypeID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

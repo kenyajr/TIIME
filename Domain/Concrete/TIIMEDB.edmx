@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TIIMEModelContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="categoryId" />
+          </Key>
+          <Property Name="categoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryName" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="categoryDescription" Type="nvarchar(max)" />
+          <Property Name="categoryTypeId" Type="int" Nullable="false" />
+          <Property Name="createdDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CatetoryType">
+          <Key>
+            <PropertyRef Name="categoryTypeID" />
+          </Key>
+          <Property Name="categoryTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryTypeName" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="categoryTypeDescription" Type="nvarchar(max)" />
+          <Property Name="createdDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DateDimension">
+          <Key>
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="DateKey" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Day" Type="tinyint" Nullable="false" />
+          <Property Name="DaySuffix" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Weekday" Type="tinyint" Nullable="false" />
+          <Property Name="WeekDayName" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IsWeekend" Type="bit" Nullable="false" />
+          <Property Name="IsHoliday" Type="bit" Nullable="false" />
+          <Property Name="HolidayText" Type="varchar" MaxLength="64" />
+          <Property Name="DOWInMonth" Type="tinyint" Nullable="false" />
+          <Property Name="DayOfYear" Type="smallint" Nullable="false" />
+          <Property Name="WeekOfMonth" Type="tinyint" Nullable="false" />
+          <Property Name="WeekOfYear" Type="tinyint" Nullable="false" />
+          <Property Name="ISOWeekOfYear" Type="tinyint" Nullable="false" />
+          <Property Name="Month" Type="tinyint" Nullable="false" />
+          <Property Name="MonthName" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Quarter" Type="tinyint" Nullable="false" />
+          <Property Name="QuarterName" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="MMYYYY" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="MonthYear" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="FirstDayOfMonth" Type="date" Nullable="false" />
+          <Property Name="LastDayOfMonth" Type="date" Nullable="false" />
+          <Property Name="FirstDayOfQuarter" Type="date" Nullable="false" />
+          <Property Name="LastDayOfQuarter" Type="date" Nullable="false" />
+          <Property Name="FirstDayOfYear" Type="date" Nullable="false" />
+          <Property Name="LastDayOfYear" Type="date" Nullable="false" />
+          <Property Name="FirstDayOfNextMonth" Type="date" Nullable="false" />
+          <Property Name="FirstDayOfNextYear" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="logID" />
+          </Key>
+          <Property Name="logID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="logName" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="logDescription" Type="nvarchar(max)" />
+          <Property Name="createdDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionLogs">
+          <Key>
+            <PropertyRef Name="logsId" />
+          </Key>
+          <Property Name="logsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="logId" Type="int" Nullable="false" />
+          <Property Name="transactionDate" Type="date" Nullable="false" />
+          <Property Name="categoryID" Type="int" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Category_CatetoryType">
+          <End Role="CatetoryType" Type="Self.CatetoryType" Multiplicity="1" />
+          <End Role="Category" Type="Self.Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CatetoryType">
+              <PropertyRef Name="categoryTypeID" />
+            </Principal>
+            <Dependent Role="Category">
+              <PropertyRef Name="categoryTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionLogs_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="TransactionLogs" Type="Self.TransactionLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="categoryId" />
+            </Principal>
+            <Dependent Role="TransactionLogs">
+              <PropertyRef Name="categoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionLogs_DateDimension">
+          <End Role="DateDimension" Type="Self.DateDimension" Multiplicity="1" />
+          <End Role="TransactionLogs" Type="Self.TransactionLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DateDimension">
+              <PropertyRef Name="Date" />
+            </Principal>
+            <Dependent Role="TransactionLogs">
+              <PropertyRef Name="transactionDate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionLogs_Log">
+          <End Role="Log" Type="Self.Log" Multiplicity="1" />
+          <End Role="TransactionLogs" Type="Self.TransactionLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Log">
+              <PropertyRef Name="logID" />
+            </Principal>
+            <Dependent Role="TransactionLogs">
+              <PropertyRef Name="logId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TIIMEModelContextStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CatetoryType" EntityType="Self.CatetoryType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DateDimension" EntityType="Self.DateDimension" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionLogs" EntityType="Self.TransactionLogs" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Category_CatetoryType" Association="Self.FK_Category_CatetoryType">
+            <End Role="CatetoryType" EntitySet="CatetoryType" />
+            <End Role="Category" EntitySet="Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionLogs_Category" Association="Self.FK_TransactionLogs_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="TransactionLogs" EntitySet="TransactionLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionLogs_DateDimension" Association="Self.FK_TransactionLogs_DateDimension">
+            <End Role="DateDimension" EntitySet="DateDimension" />
+            <End Role="TransactionLogs" EntitySet="TransactionLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionLogs_Log" Association="Self.FK_TransactionLogs_Log">
+            <End Role="Log" EntitySet="Log" />
+            <End Role="TransactionLogs" EntitySet="TransactionLogs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TIIMEModelContext" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="categoryId" />
+          </Key>
+          <Property Name="categoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="categoryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="categoryTypeId" Type="Int32" Nullable="false" />
+          <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CatetoryType" Relationship="Self.FK_Category_CatetoryType" FromRole="Category" ToRole="CatetoryType" />
+          <NavigationProperty Name="TransactionLogs" Relationship="Self.FK_TransactionLogs_Category" FromRole="Category" ToRole="TransactionLogs" />
+        </EntityType>
+        <EntityType Name="CatetoryType">
+          <Key>
+            <PropertyRef Name="categoryTypeID" />
+          </Key>
+          <Property Name="categoryTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryTypeName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="categoryTypeDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_Category_CatetoryType" FromRole="CatetoryType" ToRole="Category" />
+        </EntityType>
+        <EntityType Name="DateDimension">
+          <Key>
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="DateKey" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Day" Type="Byte" Nullable="false" />
+          <Property Name="DaySuffix" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Weekday" Type="Byte" Nullable="false" />
+          <Property Name="WeekDayName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsWeekend" Type="Boolean" Nullable="false" />
+          <Property Name="IsHoliday" Type="Boolean" Nullable="false" />
+          <Property Name="HolidayText" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DOWInMonth" Type="Byte" Nullable="false" />
+          <Property Name="DayOfYear" Type="Int16" Nullable="false" />
+          <Property Name="WeekOfMonth" Type="Byte" Nullable="false" />
+          <Property Name="WeekOfYear" Type="Byte" Nullable="false" />
+          <Property Name="ISOWeekOfYear" Type="Byte" Nullable="false" />
+          <Property Name="Month" Type="Byte" Nullable="false" />
+          <Property Name="MonthName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quarter" Type="Byte" Nullable="false" />
+          <Property Name="QuarterName" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="MMYYYY" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MonthYear" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="FirstDayOfMonth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="LastDayOfMonth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FirstDayOfQuarter" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="LastDayOfQuarter" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FirstDayOfYear" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="LastDayOfYear" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FirstDayOfNextMonth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FirstDayOfNextYear" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="TransactionLogs" Relationship="Self.FK_TransactionLogs_DateDimension" FromRole="DateDimension" ToRole="TransactionLogs" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="logID" />
+          </Key>
+          <Property Name="logID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="logName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="logDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="TransactionLogs" Relationship="Self.FK_TransactionLogs_Log" FromRole="Log" ToRole="TransactionLogs" />
+        </EntityType>
+        <EntityType Name="TransactionLog">
+          <Key>
+            <PropertyRef Name="logsId" />
+          </Key>
+          <Property Name="logsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="logId" Type="Int32" Nullable="false" />
+          <Property Name="transactionDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="categoryID" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_TransactionLogs_Category" FromRole="TransactionLogs" ToRole="Category" />
+          <NavigationProperty Name="DateDimension" Relationship="Self.FK_TransactionLogs_DateDimension" FromRole="TransactionLogs" ToRole="DateDimension" />
+          <NavigationProperty Name="Log" Relationship="Self.FK_TransactionLogs_Log" FromRole="TransactionLogs" ToRole="Log" />
+        </EntityType>
+        <Association Name="FK_Category_CatetoryType">
+          <End Role="CatetoryType" Type="Self.CatetoryType" Multiplicity="1" />
+          <End Role="Category" Type="Self.Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CatetoryType">
+              <PropertyRef Name="categoryTypeID" />
+            </Principal>
+            <Dependent Role="Category">
+              <PropertyRef Name="categoryTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionLogs_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="TransactionLogs" Type="Self.TransactionLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="categoryId" />
+            </Principal>
+            <Dependent Role="TransactionLogs">
+              <PropertyRef Name="categoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionLogs_DateDimension">
+          <End Role="DateDimension" Type="Self.DateDimension" Multiplicity="1" />
+          <End Role="TransactionLogs" Type="Self.TransactionLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DateDimension">
+              <PropertyRef Name="Date" />
+            </Principal>
+            <Dependent Role="TransactionLogs">
+              <PropertyRef Name="transactionDate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionLogs_Log">
+          <End Role="Log" Type="Self.Log" Multiplicity="1" />
+          <End Role="TransactionLogs" Type="Self.TransactionLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Log">
+              <PropertyRef Name="logID" />
+            </Principal>
+            <Dependent Role="TransactionLogs">
+              <PropertyRef Name="logId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TIIMEEntitiesContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="CatetoryTypes" EntityType="Self.CatetoryType" />
+          <EntitySet Name="DateDimensions" EntityType="Self.DateDimension" />
+          <EntitySet Name="Logs" EntityType="Self.Log" />
+          <EntitySet Name="TransactionLogs" EntityType="Self.TransactionLog" />
+          <AssociationSet Name="FK_Category_CatetoryType" Association="Self.FK_Category_CatetoryType">
+            <End Role="CatetoryType" EntitySet="CatetoryTypes" />
+            <End Role="Category" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionLogs_Category" Association="Self.FK_TransactionLogs_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="TransactionLogs" EntitySet="TransactionLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionLogs_DateDimension" Association="Self.FK_TransactionLogs_DateDimension">
+            <End Role="DateDimension" EntitySet="DateDimensions" />
+            <End Role="TransactionLogs" EntitySet="TransactionLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionLogs_Log" Association="Self.FK_TransactionLogs_Log">
+            <End Role="Log" EntitySet="Logs" />
+            <End Role="TransactionLogs" EntitySet="TransactionLogs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TIIMEModelContextStoreContainer" CdmEntityContainer="TIIMEEntitiesContext">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="TIIMEModelContext.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+                <ScalarProperty Name="categoryDescription" ColumnName="categoryDescription" />
+                <ScalarProperty Name="categoryTypeId" ColumnName="categoryTypeId" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CatetoryTypes">
+            <EntityTypeMapping TypeName="TIIMEModelContext.CatetoryType">
+              <MappingFragment StoreEntitySet="CatetoryType">
+                <ScalarProperty Name="categoryTypeID" ColumnName="categoryTypeID" />
+                <ScalarProperty Name="categoryTypeName" ColumnName="categoryTypeName" />
+                <ScalarProperty Name="categoryTypeDescription" ColumnName="categoryTypeDescription" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DateDimensions">
+            <EntityTypeMapping TypeName="TIIMEModelContext.DateDimension">
+              <MappingFragment StoreEntitySet="DateDimension">
+                <ScalarProperty Name="DateKey" ColumnName="DateKey" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="DaySuffix" ColumnName="DaySuffix" />
+                <ScalarProperty Name="Weekday" ColumnName="Weekday" />
+                <ScalarProperty Name="WeekDayName" ColumnName="WeekDayName" />
+                <ScalarProperty Name="IsWeekend" ColumnName="IsWeekend" />
+                <ScalarProperty Name="IsHoliday" ColumnName="IsHoliday" />
+                <ScalarProperty Name="HolidayText" ColumnName="HolidayText" />
+                <ScalarProperty Name="DOWInMonth" ColumnName="DOWInMonth" />
+                <ScalarProperty Name="DayOfYear" ColumnName="DayOfYear" />
+                <ScalarProperty Name="WeekOfMonth" ColumnName="WeekOfMonth" />
+                <ScalarProperty Name="WeekOfYear" ColumnName="WeekOfYear" />
+                <ScalarProperty Name="ISOWeekOfYear" ColumnName="ISOWeekOfYear" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="MonthName" ColumnName="MonthName" />
+                <ScalarProperty Name="Quarter" ColumnName="Quarter" />
+                <ScalarProperty Name="QuarterName" ColumnName="QuarterName" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="MMYYYY" ColumnName="MMYYYY" />
+                <ScalarProperty Name="MonthYear" ColumnName="MonthYear" />
+                <ScalarProperty Name="FirstDayOfMonth" ColumnName="FirstDayOfMonth" />
+                <ScalarProperty Name="LastDayOfMonth" ColumnName="LastDayOfMonth" />
+                <ScalarProperty Name="FirstDayOfQuarter" ColumnName="FirstDayOfQuarter" />
+                <ScalarProperty Name="LastDayOfQuarter" ColumnName="LastDayOfQuarter" />
+                <ScalarProperty Name="FirstDayOfYear" ColumnName="FirstDayOfYear" />
+                <ScalarProperty Name="LastDayOfYear" ColumnName="LastDayOfYear" />
+                <ScalarProperty Name="FirstDayOfNextMonth" ColumnName="FirstDayOfNextMonth" />
+                <ScalarProperty Name="FirstDayOfNextYear" ColumnName="FirstDayOfNextYear" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="TIIMEModelContext.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="logID" ColumnName="logID" />
+                <ScalarProperty Name="logName" ColumnName="logName" />
+                <ScalarProperty Name="logDescription" ColumnName="logDescription" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionLogs">
+            <EntityTypeMapping TypeName="TIIMEModelContext.TransactionLog">
+              <MappingFragment StoreEntitySet="TransactionLogs">
+                <ScalarProperty Name="logsId" ColumnName="logsId" />
+                <ScalarProperty Name="logId" ColumnName="logId" />
+                <ScalarProperty Name="transactionDate" ColumnName="transactionDate" />
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

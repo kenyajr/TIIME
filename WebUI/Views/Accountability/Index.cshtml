@@ -1,0 +1,81 @@
+﻿@model WebUI.Models.AccountabilityVM
+
+@{
+    ViewBag.Title = "Accountability ";
+}
+
+<h2>Index</h2>
+
+<body>
+
+    @using (Html.BeginForm("Index", "Accountability"))
+                {
+
+
+    <div id="getdate">
+
+        <div class="container form-group">
+
+            <div class="row">
+                
+                <div class="col-md-3">
+                    @Html.TextBoxFor(m => m.requestDate, new { @class = "form-control" })
+                </div>
+                <div class="col-md-1">
+                    <input type="submit" text="GO" class="btn btn-primary" />
+                   
+                </div>
+
+        </div>
+
+
+            </div>
+        <div id="summaries">
+            <div id="stat-coincidences">
+                <h4>Number of Days Since Last Coincidence</h4>
+                @Html.Action("ShowNumberOfDaysSinceLastCoincidence")
+            </div>
+            <div id="stat-penaltycc">
+                <h4>Number of Days Since Last CC</h4>
+                @Html.Action("ShowNumberOfDaysSinceLastCC")
+            </div>
+            <div id="stat-penaltyccm">
+                <h4>Number of Days Since Last CCM</h4>
+                @Html.Action("ShowNumberOfDaysSinceLastCCM")
+            </div>
+
+            <div id="stat-penaltyccc">
+                <h4>Number of Days Since Last CCC</h4>
+                @Html.Action("ShowNumberOfDaysSinceLastCCC")
+            </div>
+
+            <div id="stat-bicycle">
+                <h4>Number of Days Since Last Bicycle</h4>
+                @Html.Action("ShowNumberOfDaysSinceLastBicycle")
+            </div>
+
+            
+            
+        </div>
+        </div>
+    
+    }
+
+    <div class="panel panel-success" id="translogsection">
+        <div class="panel-heading">
+            Transaction Logs
+        </div>
+        <div class="panel-body">
+
+            @Html.Action("ShowAllRequestedLogs")
+
+        </div>
+        </div>
+</body>
+
+
+
+
+
+</div>
+

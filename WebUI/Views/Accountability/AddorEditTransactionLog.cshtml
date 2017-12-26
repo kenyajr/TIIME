@@ -1,0 +1,60 @@
+﻿@model WebUI.Models.EditTransLogVM
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>TransactionLog</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        
+        <div class="form-group">
+            @Html.DisplayNameFor(model => model.TransLog.transactionDate)
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TransLog.transactionDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TransLog.transactionDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.DisplayNameFor(model => model.selectedLog)
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.selectedLog, ViewBag.LogNames as SelectList, new { htmlAttributes = new { @class = "form -control" } })
+                @Html.ValidationMessageFor(model => model.TransLog.categoryID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+           
+
+        <div class="form-group">
+            @Html.DisplayNameFor(model => model.selectedCategory)
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.selectedCategory, ViewBag.CategoryNames as SelectList, new { htmlAttributes = new { @class = "form -control" } })
+                @Html.ValidationMessageFor(model => model.TransLog.categoryID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.DisplayNameFor(model => model.TransLog.description)
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TransLog.description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TransLog.description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
