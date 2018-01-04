@@ -237,21 +237,30 @@ namespace WebUI.Controllers
             return Content(statisic.ToString());
         }
 
+        public ActionResult ShowNumberOfDaysSinceLastSpt()
+        {
+            DateTime d = _repository.TransLogs.Where(e => e.Log.logName.Contains("SPT")).OrderByDescending(e => e.transactionDate).Select(e => e.transactionDate).First();
+            int statisic = Convert.ToInt32((DateTime.Now - d).TotalDays);
+
+
+            return Content(statisic.ToString());
+        }
+
         public ActionResult GetTemplateData()
         {
             DailyTemplateVM vm = new DailyTemplateVM();
-            vm.DailyActivities= new List<AccountabilityLog> 
+            vm.DailyActivities = new List<AccountabilityLog>
                 {
                 new AccountabilityLog { completed = false, Activity = "Jog", Goal="Health",timeactive=20,weekend=false  },
                 new AccountabilityLog { completed = false, Activity = "Jog", Goal="Health",timeactive=20,weekend=false},
                 new AccountabilityLog { completed = false, Activity = "Work", Goal="Finance",timeactive=480,weekend=false},
                 new AccountabilityLog { completed = false, Activity = "TIIME", Goal="Software",timeactive=120,weekend=false},
                 new AccountabilityLog { completed = false, Activity = "RSolutions", Goal="Software",timeactive=180,weekend=false},
-                new AccountabilityLog { completed = false, Activity = "Crosswords", Goal="Software",timeactive=180,weekend=false},
+                new AccountabilityLog { completed = false, Activity = "Crosswords", Goal="Software",timeactive=180,weekend=false};
 
 
 
-
+            return View(vm);
 
             }
             
@@ -260,7 +269,7 @@ namespace WebUI.Controllers
 
 
 
-            return View(vm);
+            
 
         }
     }
