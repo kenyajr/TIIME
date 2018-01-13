@@ -246,6 +246,15 @@ namespace WebUI.Controllers
             return Content(statisic.ToString());
         }
 
+        public ActionResult ShowNumberOfDaysSinceShuffleZero()
+        {
+            DateTime d = _repository.TransLogs.Where(e => e.Log.logName.Contains("Shuffle-0")).OrderByDescending(e => e.transactionDate).Select(e => e.transactionDate).First();
+            int statisic = Convert.ToInt32((DateTime.Now - d).TotalDays);
+
+
+            return Content(statisic.ToString());
+        }
+
         public ActionResult GetTemplateData()
         {
             DailyTemplateVM vm = new DailyTemplateVM();
