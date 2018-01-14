@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
@@ -17,14 +18,16 @@ namespace WebUI.Controllers
         public ActionResult ShowWeekdayTemplate()
         {
             TIIMETemplate weekday = new TIIMETemplate();
-
-            AccoutabiliyVM vm = new AccoutabiliyVM();
             
 
-        
-          List<AccountabilityUnit> dailyAccountability =new List<AccountabilityUnit>
-          {
-             new AccountabilityUnit { Number=1, Goal = "General", Activity = "WRP-TTH,WSHCLS,DSH,GRT,As",Time = 20 },
+            AccountabilityVM vm = new AccountabilityVM();
+
+            weekday.current = vm;
+
+
+
+            List<AccountabilityUnit> dailyAccountability = new List<AccountabilityUnit>()
+          {  new AccountabilityUnit { Number=1, Goal = "General", Activity = "WRP-TTH,WSHCLS,DSH,GRT,As",Time = 20 },
              new AccountabilityUnit { Number=4, Goal="Work", Activity="Work", Time=120},
              new AccountabilityUnit { Number=2, Goal="Software", Activity="EfficientCoding", Time=60 },
              new AccountabilityUnit { Number=1,Goal="Software", Activity="Special Project-Facial Recognition", Time=40},
@@ -41,10 +44,10 @@ namespace WebUI.Controllers
              new AccountabilityUnit { Number=1,Goal="RSolutions", Activity="Special Project-TIIME", Time=20},
              new AccountabilityUnit { Number=1,Goal="RSolutions", Activity="Special Project-Rsolutions Web", Time=20},
              new AccountabilityUnit { Number=1,Goal="StreborFarms", Activity="Knit", Time=40},
-             new AccountabilityUnit { Number=1,Goal="Home", Activity="Storage", Time=10},
-          }
+             new AccountabilityUnit { Number=1,Goal="Home", Activity="Storage", Time=10}
+          };
 
-          List<LogUnit> dailyLogs= new List<LogUnit>
+            List<LogUnit> dailyLogs = new List<LogUnit>()
           {
               new LogUnit {Name="Penalty-Water1",Pattern="Pattern-R", Complete=0, Comment=""},
               new LogUnit {Name="Penalty-Water2",Pattern="Pattern-I",Complete=0,Comment=""},
@@ -61,7 +64,7 @@ namespace WebUI.Controllers
              new LogUnit {Name="Supp-Syn",Pattern="Pattern",Complete=0,Comment=""},
              new LogUnit {Name="Supp-C",Pattern="Pattern",Complete=0,Comment=""},
              new LogUnit {Name="Supp-Multi",Pattern="Pattern",Complete=0,Comment=""}
-          }
+          };
 
 
           vm.DailyA = dailyAccountability;
@@ -70,7 +73,7 @@ namespace WebUI.Controllers
 
 
 
-
+            return View(weekday);
 
 
 
@@ -90,4 +93,3 @@ namespace WebUI.Controllers
 
         }
     }
-}

@@ -10,5 +10,7 @@ namespace WebUI.Models
         public IEnumerable<DisplayLog> currentLogs;
         public DateTime requestDate;
 
+        public List<AccountabilityUnit> DailyA { get; internal set; }
+        public List<LogUnit> DailyL { get; internal set; }
     }
 }

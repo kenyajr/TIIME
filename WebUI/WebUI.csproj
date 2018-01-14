@@ -181,10 +181,13 @@
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AccountabilityLog.cs" />
+    <Compile Include="Models\AccountabilityUnit.cs" />
     <Compile Include="Models\AccountabilityVM.cs" />
     <Compile Include="Models\DailyTemplateVM.cs" />
     <Compile Include="Models\DisplayLog.cs" />
     <Compile Include="Models\EditTransLogVM.cs" />
+    <Compile Include="Models\LogUnit.cs" />
+    <Compile Include="Models\TIIMETemplate.cs" />
     <Compile Include="Models\WeekdayVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -213,6 +216,7 @@
     <Content Include="Views\Logs\Details.cshtml" />
     <Content Include="Views\Logs\Edit.cshtml" />
     <Content Include="Views\Logs\Index.cshtml" />
+    <Content Include="Views\Template\ShowWeekdayTemplate.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -222,7 +226,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Template\" />
     <Folder Include="Views\TransactionLogs\" />
   </ItemGroup>
   <ItemGroup>

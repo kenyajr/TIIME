@@ -258,14 +258,15 @@ namespace WebUI.Controllers
         public ActionResult GetTemplateData()
         {
             DailyTemplateVM vm = new DailyTemplateVM();
-            vm.DailyActivities = new List<AccountabilityLog>
+            vm.DailyActivities = new List<AccountabilityLog>()
                 {
                 new AccountabilityLog { completed = false, Activity = "Jog", Goal="Health",timeactive=20,weekend=false  },
                 new AccountabilityLog { completed = false, Activity = "Jog", Goal="Health",timeactive=20,weekend=false},
                 new AccountabilityLog { completed = false, Activity = "Work", Goal="Finance",timeactive=480,weekend=false},
                 new AccountabilityLog { completed = false, Activity = "TIIME", Goal="Software",timeactive=120,weekend=false},
                 new AccountabilityLog { completed = false, Activity = "RSolutions", Goal="Software",timeactive=180,weekend=false},
-                new AccountabilityLog { completed = false, Activity = "Crosswords", Goal="Software",timeactive=180,weekend=false};
+                new AccountabilityLog { completed = false, Activity = "Crosswords", Goal="Software",timeactive=180,weekend=false}
+            };
 
 
 
@@ -282,4 +283,4 @@ namespace WebUI.Controllers
 
         }
     }
-}
+
